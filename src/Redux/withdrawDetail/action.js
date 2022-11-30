@@ -1,35 +1,44 @@
 import { ActionTypes } from "../types";
-import { financeAppContractAddress, financeAppContract_Abi } from "../../utilies/Contract";
+import { financeAppContractAddress, financeAppContract_Abi } from "../../utils/contracts";
 export const withdrawInfo = (acc) => {
     return async (dispatch) => {
         try {
-            const web3 = window.web3;
-            let financeAppcontractOf = new web3.eth.Contract(financeAppContract_Abi, financeAppContractAddress);
+           
             let obj = {}
-                let reward_info = await financeAppcontractOf.methods.rewardInfo(acc).call();
-                let ctoAll = await financeAppcontractOf.methods._calCurAllCTO(acc).call()
-                let cto1=(web3.utils.fromWei(ctoAll[0]))
-                let cto2=(web3.utils.fromWei(ctoAll[1]))
-                ctoAll=parseFloat(cto1)+parseFloat(cto2)
-                let all_val = parseFloat(cto1)+parseFloat(cto2)+ (parseInt(web3.utils.fromWei((reward_info.capitals))) + parseInt(web3.utils.fromWei((reward_info.statics))) + parseInt(web3.utils.fromWei((reward_info.directs)))  + parseInt(web3.utils.fromWei((reward_info.level2Income ))) + parseInt(web3.utils.fromWei((reward_info.level3_6Income))) + parseInt(web3.utils.fromWei((reward_info.level7_10Income))) + parseInt(web3.utils.fromWei((reward_info.level11_14Income)))+ parseInt(web3.utils.fromWei((reward_info.top))))
-
-                obj["all_val"] = all_val;
-
-                obj['statics'] = Number(web3.utils.fromWei(reward_info.statics)).toFixed(2)
-                obj['capitals'] = Number(web3.utils.fromWei(reward_info.directs)).toFixed(2)
-                obj['level2Income'] = Number(web3.utils.fromWei(reward_info.level2Income)).toFixed(2)
-                obj['level3_6Income'] = Number(web3.utils.fromWei(reward_info.level3_6Income)).toFixed(2);
-                obj['level7_10Income'] = Number(web3.utils.fromWei(reward_info.level7_10Income)).toFixed(2);
-                obj['level11_14Income'] = Number(web3.utils.fromWei(reward_info.level11_14Income)).toFixed(2); 
-                obj['top'] = Number(web3.utils.fromWei(reward_info.top)).toFixed(2)
-                obj['unlock'] = Number(web3.utils.fromWei(reward_info.capitals)).toFixed(2);
-                obj['cto'] = ctoAll.toFixed(2) 
-
-                dispatch({ type: ActionTypes.WITHDRAW_INFO, payload: obj });
-        } catch (error) {
+            let split="";
+            const web3 = window.web3;
+            let financeAppcontractOf = new web3.eth.Contract(financeAppContract_Abi, financeAppContractAddress)
+            let {status} =await financeAppcontractOf.methods.checkMaxPlusWithdrawable(acc).call()
+            // let status = false
+            let reward_info = await financeAppcontractOf.methods.rewardInfo(acc).call();
+            let value= await financeAppcontractOf.methods.getCurSplit(acc).call();
+            console.log("status", value);
+             split=Number(web3.utils.fromWei(value)).toFixed(2)
             
+            console.log("reward_info.directs",reward_info.directs)
+            console.log("reward_info.capitals",reward_info.capitals)
+            let capitals = web3.utils.fromWei(reward_info.capitals)
+            let all_val =  (parseInt(web3.utils.fromWei(reward_info.capitals)) + parseInt(web3.utils.fromWei(reward_info.statics)) + parseInt(web3.utils.fromWei(reward_info.directs)) + parseInt(web3.utils.fromWei(reward_info.level4Released)) + parseInt(web3.utils.fromWei(reward_info.level5Released)) + parseInt(web3.utils.fromWei(reward_info.diamond)) + parseInt(web3.utils.fromWei(reward_info.doubleDiamond)) + parseInt(web3.utils.fromWei(reward_info.top)))
+
+            obj['directs'] = Number(web3.utils.fromWei(reward_info.directs)).toFixed(2)
+            obj['statics'] = Number(web3.utils.fromWei(reward_info.statics)).toFixed(2)
+            obj['capitals'] = Number(web3.utils.fromWei(reward_info.capitals)).toFixed(2)
+            obj['level4Released'] = Number(web3.utils.fromWei(reward_info.level4Released)).toFixed(2)
+            obj['level5Released'] = Number(web3.utils.fromWei(reward_info.level5Released)).toFixed(2)
+            obj['level4Freezed'] = (Number(web3.utils.fromWei(reward_info.level4Freezed)) + Number(web3.utils.fromWei(reward_info.level5Freezed))).toFixed(2);
+            obj['diamond'] = Number(web3.utils.fromWei(reward_info.diamond)).toFixed(2)
+            obj['doubleDiamond'] = Number(web3.utils.fromWei(reward_info.doubleDiamond)).toFixed(2)
+            obj['top'] = Number(web3.utils.fromWei(reward_info.top)).toFixed(2)
+            obj['unlock'] = Number(capitals).toFixed(2)
+            obj['totalWithdrawls'] = Number(web3.utils.fromWei(reward_info.totalWithdrawls)).toFixed(2)
+            
+
+            dispatch({ type: ActionTypes.WITHDRAW_INFO, payload: obj, payload1:all_val,payload2:split, payload3:status });
+            
+            
+        } catch (e) {
+            console.log("error while get detiail",e);
         }
     }
 
 }
-

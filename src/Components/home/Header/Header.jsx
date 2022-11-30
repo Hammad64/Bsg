@@ -2,9 +2,16 @@ import React from "react";
 import en from "../../../assets/images/pic/en.png";
 import cn from "../../../assets/images/pic/cn.png";
 import logo from "../../../assets/images/icon/logo.png";
-import styles from "./Header.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {connectionAction} from "../../../Redux/connection/actions"
 
 export default function Header() {
+  const dispatch = useDispatch();
+	let acc = useSelector((state) => state.connect?.connection);
+
+	const connectWallet = () =>{
+		dispatch(connectionAction())
+	}
   return (
     <div>
       <header className="header Huans flexC">
@@ -29,9 +36,15 @@ export default function Header() {
               </a>
             </div>
           </div>
-          <a href="#" className="hdLik linkWallet">
-            Connect
-          </a>
+          <button className="hdLik linkWallet" onClick={connectWallet}>
+			{acc === "No Wallet"
+                ? "Connect"
+                : acc === "Connect Wallet"
+                ? "Connect"
+                : acc === "Wrong Network"
+                ? acc
+                : acc.substring(0, 3) + "..." + acc.substring(acc.length - 3)}
+			</button>
         </div>
       </header>
     </div>

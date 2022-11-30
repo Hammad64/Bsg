@@ -1,4 +1,4 @@
-import { loadWeb3 } from "../../apis/api";
+import { loadWeb3 } from "../../api";
 import { ActionTypes } from "../types";
 
 export const connectionAction = () => {

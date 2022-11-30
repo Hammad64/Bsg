@@ -1,43 +1,30 @@
 import { ActionTypes } from "../types";
-import { financeAppContractAddress, financeAppContract_Abi } from "../../utilies/Contract";
+import { financeAppContractAddress, financeAppContract_Abi } from "../../utils/contracts";
 import Web3 from "web3";
-const web3Supply = new Web3("https://matic-mumbai.chainstacklabs.com")
+const web3Supply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545/")
 export const getpoolDetail = () => {
     return async (dispatch) => {
+      let obj = {}
       try {
         let financeAppcontractOf = new web3Supply.eth.Contract(financeAppContract_Abi, financeAppContractAddress);
         let totalUsers = await financeAppcontractOf.methods.totalUser().call();
-         dispatch({ type: ActionTypes.POOL_DETAIL, payload: totalUsers });
+        obj = {...obj,totalUsers}
+  
+        let diamond = await financeAppcontractOf.methods.diamond().call();
+        diamond = web3Supply.utils.fromWei(diamond)
+        obj = {...obj, diamond}
+  
+        let doubleDiamond = await financeAppcontractOf.methods.doubleDiamond().call();
+        doubleDiamond = web3Supply.utils.fromWei(doubleDiamond)
+        obj = {...obj, doubleDiamond}
+  
+  
+        let topPool = await financeAppcontractOf.methods.topPool().call();
+        topPool = web3Supply.utils.fromWei(topPool);
+        obj = {...obj, topPool}
+         dispatch({ type: ActionTypes.POOL_DETAIL, payload: obj });
     } catch (e) {
       console.error(e);
     }
-    }
-  }
-
-  export const getUserRank = (acc) => {
-    return async (dispatch) => {
-      try {
-        const web3 = window.web3;
-				let obj = {};
-				let financeAppcontractOf = new web3.eth.Contract(financeAppContract_Abi, financeAppContractAddress);
-                let {level}=await financeAppcontractOf.methods.userInfo(acc).call();
-                let userRank = ""
-				if(level == 0){
-					userRank=""
-				}else if(level == 1){
-					userRank="Player"
-				}else if(level == 2){
-					userRank="Scorer"
-				}else if(level == 3){
-					userRank="All Rounder"
-				}else if(level == 4){
-					userRank="Vice Captain"
-				}else if(level == 5){
-					userRank="Captain"
-				}
-         dispatch({ type: ActionTypes.USER_RANK, payload: userRank });
-      } catch (error) {
-        console.error(error);
-      }
     }
   }

@@ -1,5 +1,5 @@
 import { ActionTypes } from "../types";
-import { financeAppContractAddress, financeAppContract_Abi } from "../../utilies/Contract";
+import { financeAppContractAddress, financeAppContract_Abi } from "../../utils/contracts";
 export const getRemaintime = (acc) => {
     return async (dispatch) => {
       try {
@@ -17,11 +17,11 @@ export const getRemaintime = (acc) => {
                   );
                   let orderlength = await contract.methods.getOrderLength(acc).call();
                   if(orderlength > 0){
-                    let {start} = await contract.methods
+                    let {unfreeze} = await contract.methods
                     .orderInfos(acc, (orderlength-1)).call()
-                    let sTime = Number(start);
-                    let rTime = sTime + 1296000;
-                     dispatch({ type: ActionTypes.REMAIN_TIME, payload: start != 0 ? rTime : 0 });
+                    let sTime = Number(unfreeze);
+                    let rTime = sTime;
+                     dispatch({ type: ActionTypes.REMAIN_TIME, payload: unfreeze != 0 ? rTime : 0 });
                   }else{
                      dispatch({ type: ActionTypes.REMAIN_TIME, payload: 0 });
                   }
