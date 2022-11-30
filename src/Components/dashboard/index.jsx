@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route,Outlet } from "react-router-dom"
+import {Outlet } from "react-router-dom"
 import Deposite from './DepositeDetails/Deposite'
 import Header from './Header/Header'
 import Main from './Main/Main'

@@ -2,7 +2,7 @@ import React from 'react'
 import helpcircle from "../../../assets/images/icon/help-circle.png"
 function Deposite() {
   return (
-    <div className="Huans madk flex fl-bet">
+    <div className="Huans madk flex fl-bet" style={{height:"100vh",backgroundColor:"black"}}>
 		<div className="depDK">
 			<div className="depTit Huans flexC fl-bet">
 				<div className="depTitH">

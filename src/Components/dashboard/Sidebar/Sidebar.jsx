@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom"
 import scan from "../../../assets/images/icon/scan1.png"
 import swap from "../../../assets/images/icon/wyswap.png"
 
@@ -7,15 +8,15 @@ function Sidebar() {
     <>
     <div className="NavK">
 		<ul>
-			<li className="Huans"><a href="dashboard.html" className="NavA on flexC"><i className="NavI NavI1"></i><p>
+			<li className="Huans"><Link to="/dashboard" className="NavA on flexC"><i className="NavI NavI1"></i><p style={{cursor:"pointer"}}>
 				Dashboard
-			</p></a></li>
-			<li className="Huans"><a href="myteam.html" className="NavA flexC"><i className="NavI NavI2"></i><p>
+			</p></Link></li>
+			<li className="Huans" ><Link to="team" className="NavA flexC"><i className="NavI NavI2"></i><p style={{cursor:"pointer"}}>
 				My Team
-			</p></a></li>
-			<li className="Huans"><a href="depositdet.html" className="NavA flexC"><i className="NavI NavI3"></i><p>
+			</p></Link></li>
+			<li className="Huans"><Link to="deposite" className="NavA flexC"><i className="NavI NavI3"></i><p style={{cursor:"pointer"}}>
 				Deposit Details
-			</p></a></li>
+			</p></Link></li>
 			<li className="Huans"><a href="#" className="NavA flexC"><i className="NavI NavI4"></i><p>
 				Rules
 			</p></a></li>

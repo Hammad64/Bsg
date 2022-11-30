@@ -6,7 +6,7 @@ import team5 from "../../../assets/images/pic/team05.png"
 
 function Team() {
   return (
-    <div className="Huans madk flex fl-bet">
+    <div className="Huans madk flex fl-bet" style={{height:"100vh",backgroundColor:"black"}}>
 			<div className="teaBRF flex fl-bet">
 				<a href="#" className="teaBRFa flexC">
 					<img src={team1}/>

@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom"
 
 function LandingPage() {
   return (
@@ -11,9 +12,9 @@ function LandingPage() {
 		<p>
 			Wrapped WYchain Blockchain Split Game
 		</p>
-		<a href="#" target="_blank" className="IndZhua">
+		<Link to="/dashboard"  className="IndZhua">
 			CONTRIBUTE
-		</a>
+		</Link>
 	</div>
 </div>
     

@@ -19,7 +19,7 @@ import south from "../../../assets/images/pic/south_east.png"
 function Main() {
   return (
 	<>
-    <div className="Huans madk flex fl-bet">
+    <div className="Huans madk flex fl-bet" style={{backgroundColor:"black"}}>
 		<div className="madW1">
 			<div  className="madbck dasNuz Huans flexC fl-bet">
 				<a href="#" className="dasNuzA dasNuzA1 Huans flexC fl-bet">
